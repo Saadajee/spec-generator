@@ -8,7 +8,7 @@ if (!isDev && !backendUrl) {
   console.warn('NEXT_PUBLIC_BACKEND_URL is not set — running in demo mode (no backend calls).');
 }
 
-// Only create axios instance if we have a valid base URL
+// Create axios instance only if we have a valid URL
 const api = (isDev || backendUrl)
   ? axios.create({
       baseURL: isDev ? '/specs' : `${backendUrl}/specs`,
@@ -16,15 +16,14 @@ const api = (isDev || backendUrl)
     })
   : null;
 
+// Named exports — safe and no redefinition risk
 export async function generateSpec(input) {
-  // Early return with friendly error if no backend available
   if (!isDev && !backendUrl) {
     throw new Error(
       'Backend is not configured yet. This is a frontend demo — generation is disabled until the backend is deployed.'
     );
   }
 
-  // Safe to call now — api is guaranteed to exist
   const response = await api.post('/generate', { input });
   return response.data;
 }
