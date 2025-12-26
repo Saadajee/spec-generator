@@ -1,0 +1,9 @@
+[
+  {
+    "version": 1,
+    "file": "v1.json",
+    "generated_at": "2025-12-25T17:57:55.363118",
+    "type": "initial_generation",
+    "requirements_summary": "{\n  \"requirements_text\": \"Build a simple todo app where users can create, read, update, and delete tasks. Tasks should have a title, description, due ..."
+  }
+]

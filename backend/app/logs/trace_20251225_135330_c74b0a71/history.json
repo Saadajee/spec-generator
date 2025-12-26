@@ -1,0 +1,30 @@
+[
+  {
+    "version": 1,
+    "file": "v1.json",
+    "generated_at": "2025-12-25T13:53:38.010716",
+    "type": "initial_generation",
+    "requirements_summary": "We need an internal tool for our sales team to track customer deals.\n\nUsers should be able to create new deals with fields like: company name, deal va..."
+  },
+  {
+    "version": 2,
+    "file": "v2.json",
+    "generated_at": "2025-12-25T13:54:03.385119",
+    "type": "refinement",
+    "instruction_summary": "Major improvements needed:\n\n1. Add proper authentication:\n- JWT tokens\n- Login/register endpoints\n- ..."
+  },
+  {
+    "version": 3,
+    "file": "v3.json",
+    "generated_at": "2025-12-25T13:58:00.083700",
+    "type": "refinement",
+    "instruction_summary": "Improve the spec with these changes:\n- Use UUIDs instead of integer IDs for users, tasks, and projec..."
+  },
+  {
+    "version": 4,
+    "file": "v4.json",
+    "generated_at": "2025-12-25T16:09:16.748065",
+    "type": "refinement",
+    "instruction_summary": "Add a question of how we are gonna handle multiple sessions"
+  }
+]

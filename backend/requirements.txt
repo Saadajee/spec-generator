@@ -1,0 +1,19 @@
+# Core Web Framework
+fastapi==0.115.2
+uvicorn[standard]==0.30.6
+
+# Pydantic (used heavily for models and validation)
+pydantic==2.9.2
+pydantic-settings==2.5.2
+
+# JSON Schema validation
+jsonschema==4.23.0
+
+# Groq LLM API client
+groq==0.11.0
+
+# Environment variables
+python-dotenv==1.0.1
+
+# For better async handling and retries (recommended)
+httpx==0.27.2
