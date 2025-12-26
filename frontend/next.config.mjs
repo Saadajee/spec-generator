@@ -8,37 +8,42 @@ if (!isDev && !backendUrl) {
   console.warn('NEXT_PUBLIC_BACKEND_URL is not set — running in demo mode (no backend calls).');
 }
 
-// Create axios instance only if we have a valid URL
-const api = (isDev || backendUrl)
-  ? axios.create({
-      baseURL: isDev ? '/specs' : `${backendUrl}/specs`,
-      timeout: 60000,
-    })
-  : null;
+let api = null;
+if (isDev || backendUrl) {
+  api = axios.create({
+    baseURL: isDev ? '/specs' : `${backendUrl}/specs`,
+    timeout: 60000,
+  });
+}
 
-// Named exports — safe and no redefinition risk
-export async function generateSpec(input) {
+export const generateSpec = async (input) => {
   if (!isDev && !backendUrl) {
     throw new Error(
       'Backend is not configured yet. This is a frontend demo — generation is disabled until the backend is deployed.'
     );
   }
 
-  const response = await api.post('/generate', { input });
-  return response.data;
-}
+  // FIXED: Use the exact field name your backend expects
+  const response = await api.post('/generate', {
+    requirements_text: input.trim(),
+  });
 
-export async function refineSpec(spec, refinementText, traceId) {
+  return response.data;
+};
+
+export const refineSpec = async (spec, refinementText, traceId) => {
   if (!isDev && !backendUrl) {
     throw new Error(
       'Backend is not configured yet. Refinement is disabled in demo mode.'
     );
   }
 
+  // FIXED: Match backend model exactly
   const response = await api.post('/refine', {
-    spec,
-    refinement_text: refinementText,
+    current_spec: spec,
+    refinement_text: refinementText.trim(),
     trace_id: traceId,
   });
+
   return response.data;
-}
+};
