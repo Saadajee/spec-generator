@@ -1,6 +1,6 @@
 # Spec Generator
 
-A powerful, full-stack tool that transforms messy, unstructured product requirements into clean, structured technical specifications — complete with modules, user stories, API endpoints, database schema, and open questions.
+Specification generator copilot, a powerful, full-stack tool that transforms messy, unstructured product requirements into clean, structured technical specifications, complete with modules, user stories, API endpoints, database schema, and open questions.
 
 Live Demo:  
 Frontend: https://spec-generator-psi.vercel.app/  
@@ -23,22 +23,18 @@ It also supports iterative refinementm, you can ask it to "add JWT auth", "use U
 
 ### Technologies Used
 
-**Frontend**
-- Next.js 16 (App Router alternative, using Pages Router)
-- React 18
-- Tailwind CSS (with custom theme)
-- Headless UI (for accessible tabs)
-- Axios (API calls)
-- react-syntax-highlighter (beautiful JSON display)
+| Layer     | Technology                          | Purpose                                      |
+|-----------|-------------------------------------|----------------------------------------------|
+| Frontend  | Next.js 16 (Pages Router)           | Full-stack React framework with SSR and routing |
+| Frontend  | React 19                            | Component-based UI library                   |
+| Frontend  | Tailwind CSS (custom  theme)        | Rapid, responsive styling with dark mechanical aesthetic |
+| Frontend  | Headless UI                         | Unstyled, accessible components (e.g., tabs) |
+| Frontend  | Axios                               | HTTP client for API calls to backend         |
+| Frontend  | react-syntax-highlighter            | Colored syntax-highlighted JSON/code display |
+| Backend   | FastAPI (Python)                    | High-performance API framework               |
+| Backend   | Pydantic                            | Request validation and data modeling         |
+| Backend   | Grok (custom prompts + structured generation)| Core intelligence for parsing and structuring requirements |
 
-**Backend**
-- FastAPI (Python)
-- Pydantic (request validation)
-- LLM pipeline (custom prompts + structured generation)
-
-**Deployment**
-- Frontend: Vercel
-- Backend: Hugging Face Spaces
 
 ### Features
 
@@ -51,7 +47,21 @@ It also supports iterative refinementm, you can ask it to "add JWT auth", "use U
 - Iterative refinement panel
 - Rate limiting and trace ID tracking 
 - Version Storing when running locally, u can check the iteration after refining in logs with versions, first and latest in json files
-- Graceful error handling (including short input validation)
+- Error handling (including short input validation)
+
+### Screenshots
+
+<div align="center">
+
+<img src="demo/UI.png" alt="Spec Generator main interface in dark industrial theme with large textarea for requirements and prominent cyan GENERATE SPEC button" width="800"/>
+
+*The main interface: Paste your product requirements into the textarea and click "GENERATE SPEC" to instantly create a structured specification. Also, tabbed output view: Clean, organized sections with syntax-highlighted JSON for API and database schemas.*
+
+<img src="demo/Refine.png" alt="Spec Generator refinement panel in dark theme with textarea for improvement suggestions and orange REFINE SPEC button" width="600"/>
+
+*The refinement panel: Iteratively improve the spec by typing suggestions like "Add JWT authentication" or "Use pagination".*
+
+</div>
 
 ### Local Setup
 
@@ -85,7 +95,7 @@ Open browser and start generating specs!
 Frontend: You can modify the frontend and deploy on vercel, netlify or any platform of your choice.
 Backend: Deployed on Hugging Face Spaces but can be deployed on railway or any platform of your choice.
 
-Note: When the backend is fully connected, set NEXT_PUBLIC_BACKEND_URL="https://backend-link.com" in settings to enable live generation on the deployed frontend. And for backend go for the GROQ_API_KEY varuiable
+Note: When the backend is fully connected, set NEXT_PUBLIC_BACKEND_URL="https://link-to-backend.com" in settings to enable live generation on the deployed frontend. And for backend go for the GROQ_API_KEY from grokapi and insert in on the backend deployment envirement setting.
 
 ## Notes
 - Minimum 50 characters required for meaningful output (prevents poor results from short prompts like "todo app")
