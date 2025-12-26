@@ -1,107 +1,116 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "title": "API Spec Generator Output",
-    "description": "Structured output for the API Copilot spec generator",
-    "type": "object",
-    "properties": {
-        "modules": {
-            "description": "List of identified modules in the product",
-            "type": "array",
-            "items": { "type": "string" }
-        },
-        "features_by_module": {
-            "description": "Features grouped by module",
-            "type": "object",
-            "patternProperties": {
-                ".*": {
-                    "type": "array",
-                    "items": { "type": "string" }
-                }
-            },
-            "additionalProperties": false
-        },
-        "user_stories": {
-            "description": "List of user stories in standard format",
-            "type": "array",
-            "items": {
-                "type": "object",
-                "properties": {
-                    "id": { "type": "string" },
-                    "as_a": { "type": "string" },
-                    "i_want": { "type": "string" },
-                    "so_that": { "type": "string" },
-                    "module": { "type": "string" }
-                },
-                "required": ["as_a", "i_want", "so_that"],
-                "additionalProperties": false
-            }
-        },
-        "api_endpoints": {
-            "description": "Suggested API endpoints",
-            "type": "array",
-            "items": {
-                "type": "object",
-                "properties": {
-                    "method": { "type": "string", "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"] },
-                    "path": { "type": "string" },
-                    "description": { "type": "string" },
-                    "auth_required": { "type": "boolean" },
-                    "request_body": { "type": ["object", "null"] },
-                    "response": { "type": "object" },
-                    "errors": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "code": { "type": "integer" },
-                                "message": { "type": "string" }
-                            },
-                            "required": ["code", "message"]
-                        }
-                    }
-                },
-                "required": ["method", "path", "description"],
-                "additionalProperties": false
-            }
-        },
-        "db_schema": {
-            "description": "Suggested database schema",
-            "type": "array",
-            "items": {
-                "type": "object",
-                "properties": {
-                    "table_name": { "type": "string" },
-                    "columns": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "name": { "type": "string" },
-                                "type": { "type": "string" },
-                                "constraints": {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                },
-                                "nullable": { "type": "boolean" }
-                            },
-                            "required": ["name", "type"]
-                        }
-                    },
-                    "relationships": {
-                        "type": "array",
-                        "items": { "type": "string" }
-                    }
-                },
-                "required": ["table_name", "columns"],
-                "additionalProperties": false
-            }
-        },
-        "open_questions": {
-            "description": "List of open questions or unclear parts from the requirements",
-            "type": "array",
-            "items": { "type": "string" }
-        }
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "API Spec Generator Output",
+  "description": "Structured output format for the Spec Generator (API Copilot). This JSON schema defines the exact structure returned by the LLM pipeline after processing product requirements.",
+  "type": "object",
+  "properties": {
+    "modules": {
+      "description": "Top-level modules identified in the product (e.g., 'User Authentication', 'Dashboard'). Used as high-level organization.",
+      "type": "array",
+      "items": { "type": "string" }
     },
-    "required": ["modules", "features_by_module", "user_stories", "api_endpoints", "db_schema", "open_questions"],
-    "additionalProperties": false
+    "features_by_module": {
+      "description": "Detailed features grouped under each module. Keys are module names from the 'modules' array; values are lists of specific features.",
+      "type": "object",
+      "patternProperties": {
+        ".*": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "user_stories": {
+      "description": "Standard user stories in 'As a [user], I want [goal] so that [reason]' format. Each story is linked to a module where possible.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "description": "Unique identifier (e.g., US-001)" },
+          "as_a": { "type": "string", "description": "User role or persona" },
+          "i_want": { "type": "string", "description": "Desired functionality" },
+          "so_that": { "type": "string", "description": "Business value or reason" },
+          "module": { "type": "string", "description": "Associated module (optional but recommended)" }
+        },
+        "required": ["as_a", "i_want", "so_that"],
+        "additionalProperties": false
+      }
+    },
+    "api_endpoints": {
+      "description": "Suggested REST API endpoints with method, path, description, authentication needs, request/response examples, and error handling.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "method": { "type": "string", "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"], "description": "HTTP method" },
+          "path": { "type": "string", "description": "Endpoint URL pattern (e.g., /api/v1/users/{id})" },
+          "description": { "type": "string", "description": "Purpose of the endpoint" },
+          "auth_required": { "type": "boolean", "description": "Whether authentication is needed" },
+          "request_body": { "type": ["object", "null"], "description": "Example request payload (null if not applicable)" },
+          "response": { "type": "object", "description": "Example successful response structure" },
+          "errors": {
+            "description": "Common error responses",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "code": { "type": "integer", "description": "HTTP status code" },
+                "message": { "type": "string", "description": "Error message" }
+              },
+              "required": ["code", "message"]
+            }
+          }
+        },
+        "required": ["method", "path", "description"],
+        "additionalProperties": false
+      }
+    },
+    "db_schema": {
+      "description": "Normalized database schema suggestion, including tables, columns, types, constraints, and relationships.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "table_name": { "type": "string", "description": "Name of the table" },
+          "columns": {
+            "description": "List of columns in the table",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string", "description": "Column name" },
+                "type": { "type": "string", "description": "Data type (e.g., VARCHAR(255), INTEGER, BOOLEAN)" },
+                "constraints": {
+                  "type": "array",
+                  "items": { "type": "string" },
+                  "description": "Constraints like PRIMARY KEY, UNIQUE, NOT NULL"
+                },
+                "nullable": { "type": "boolean", "description": "Whether NULL values are allowed" }
+              },
+              "required": ["name", "type"]
+            }
+          },
+          "relationships": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Foreign key relationships (e.g., 'references users(id)')"
+          }
+        },
+        "required": ["table_name", "columns"],
+        "additionalProperties": false
+      }
+    },
+    "open_questions": {
+      "description": "Unclear, ambiguous, or missing information from the original requirements that need clarification from stakeholders.",
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "required": ["modules", "features_by_module", "user_stories", "api_endpoints", "db_schema", "open_questions"],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "comment": "This schema ensures consistent, machine-readable output that can be directly consumed by frontend UI, documentation tools, or code generators."
+    }
+  ]
 }
