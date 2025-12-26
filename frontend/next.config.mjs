@@ -4,11 +4,10 @@ const nextConfig = {
     return [
       {
         source: '/specs/:path*',
-        destination: 'http://localhost:8000/specs/:path*', // Proxy to your backend
+        destination: 'https://your-username-your-space.huggingface.space/specs/:path*', // ← Replace with your actual HF Space URL
       },
     ];
   },
-  // Other configs like env variables or image optimization can go here
 };
 
 export default nextConfig;
