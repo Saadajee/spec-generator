@@ -1,10 +1,11 @@
-/** @type {import('next').NextConfig} */
+const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
+
 const nextConfig = {
   async rewrites() {
     return [
       {
         source: '/specs/:path*',
-        destination: 'https://your-username-your-space.huggingface.space/specs/:path*', // ← Replace with your actual HF Space URL
+        destination: `${backendUrl}/specs/:path*`,
       },
     ];
   },
