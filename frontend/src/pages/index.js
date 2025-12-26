@@ -7,7 +7,7 @@ import OutputTabs from '../components/OutputTabs';
 import ExportButtons from '../components/ExportButtons';
 import ErrorDisplay from '../components/ErrorDisplay';
 import RefinementPanel from '../components/RefinementPanel';
-import { generateSpec, refineSpec } from '../services/api';
+import api from '../services/api'; // ← Updated import (default export)
 
 export default function Home() {
   const [input, setInput] = useState('');
@@ -19,17 +19,21 @@ export default function Home() {
 
   const handleGenerate = async () => {
     if (!input.trim()) return;
+
     setLoading(true);
     setError('');
     setSpec(null);
     setTraceId('');
+
     try {
-      const result = await generateSpec(input);
+      const result = await api.generateSpec(input);
       setSpec(result.spec);
       setTraceId(result.trace_id);
     } catch (err) {
       console.error('Generation error:', err);
       setError(err.message || 'Generation failed — please try again.');
+
+      // Try to extract trace_id from error response if available
       const tid = err.response?.data?.trace_id || err.response?.data?.traceId;
       if (tid) setTraceId(tid);
     } finally {
@@ -39,14 +43,17 @@ export default function Home() {
 
   const handleRefine = async (refinementText) => {
     if (!refinementText.trim() || !spec || !traceId) return;
+
     setRefining(true);
     setError('');
+
     try {
-      const result = await refineSpec(spec, refinementText, traceId);
+      const result = await api.refineSpec(spec, refinementText, traceId);
       setSpec(result.spec);
     } catch (err) {
       console.error('Refinement error:', err);
       setError(err.message || 'Refinement failed — please try again.');
+
       const tid = err.response?.data?.trace_id || err.response?.data?.traceId || traceId;
       if (tid && tid !== traceId) setTraceId(tid);
     } finally {
@@ -65,24 +72,29 @@ export default function Home() {
             onSubmit={handleGenerate}
             isLoading={loading}
           />
+
           {(loading || refining) && (
             <div className="mt-12">
               <LoadingSpinner />
             </div>
           )}
+
           {error && (
             <div className="mt-8">
               <ErrorDisplay error={error} traceId={traceId} />
             </div>
           )}
+
           {spec && !error && (
             <>
               <div className="mt-8">
                 <ExportButtons spec={spec} traceId={traceId} />
               </div>
+
               <div className="mt-12">
                 <OutputTabs spec={spec} />
               </div>
+
               <div className="mt-16">
                 <RefinementPanel
                   onRefine={handleRefine}
