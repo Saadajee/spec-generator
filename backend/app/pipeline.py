@@ -49,7 +49,7 @@ def clean_json_output(raw: str) -> str:
 # === LLM call ===
 def llm_generate(prompt: str, temperature=0.0, max_tokens=2500):
     completion = client.chat.completions.create(
-        model="llama-3.1-8b-instant",
+        model="llama-3.3-70b-versatile",
         messages=[{"role": "user", "content": prompt}],
         temperature=temperature,
         max_tokens=max_tokens,
