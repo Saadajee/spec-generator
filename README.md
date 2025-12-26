@@ -19,7 +19,7 @@ Spec Generator uses a multi-step LLM pipeline to intelligently parse and structu
 4. Creates a normalized database schema
 5. Identifies open questions and edge cases
 
-It also supports iterative refinementm, you can ask it to "add JWT auth", "use UUIDs", or "add pagination", and it updates the spec coherently while preserving structure.
+It also supports iterative refinement, you can ask it to "add JWT auth", "use UUIDs", or "add pagination", and it updates the spec coherently while preserving structure.
 
 ### Technologies Used
 
@@ -33,7 +33,7 @@ It also supports iterative refinementm, you can ask it to "add JWT auth", "use U
 | Frontend  | react-syntax-highlighter            | Colored syntax-highlighted JSON/code display |
 | Backend   | FastAPI (Python)                    | High-performance API framework               |
 | Backend   | Pydantic                            | Request validation and data modeling         |
-| Backend   | Grok (custom prompts + structured generation)| Core intelligence for parsing and structuring requirements |
+| Backend   | Grok xAI API (custom structured prompts)| Core intelligence for parsing and structuring requirements |
 
 
 ### Features
@@ -46,7 +46,6 @@ It also supports iterative refinementm, you can ask it to "add JWT auth", "use U
 - Export: Copy full spec or download as JSON
 - Iterative refinement panel
 - Rate limiting and trace ID tracking 
-- Version Storing when running locally, u can check the iteration after refining in logs with versions, first and latest in json files
 - Error handling (including short input validation)
 
 ### Screenshots
@@ -97,11 +96,10 @@ Backend: Deployed on Hugging Face Spaces but can be deployed on railway or any p
 
 Note: When the backend is fully connected, set NEXT_PUBLIC_BACKEND_URL="https://link-to-backend.com" in settings to enable live generation on the deployed frontend. And for backend go for the GROQ_API_KEY from grokapi and insert in on the backend deployment envirement setting.
 
-## Notes
-- Minimum 50 characters required for meaningful output (prevents poor results from short prompts like "todo app")
-- Refinement preserves original trace context for coherent updates
-- Built with care for both aesthetics and developer experience
-- Demo mode active on Vercel until full backend integration
+### Notes
+- Requires at least 50 characters for high-quality output
+- Refinement maintains context using trace IDs for coherent iterations
+- Easily extensible: swap LLM, add auth, export to Swagger/Postman
 
 ## Curator
 
